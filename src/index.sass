@@ -3,6 +3,7 @@
   margin: 0
   list-style: none
   outline: none
+  box-sizing: border-box
   font-family: Roboto, -apple-system, system-ui, sans-serif
     -webkit-font-smoothing: antialiased
     -moz-osx-font-smoothing: grayscale
@@ -15,11 +16,35 @@
   height: 530px
   font-size: 14px
   transform: translate(-50%, -50%)
+  box-shadow: 1px 2px 20px #f3f3f3;
+  border-radius: 10px;
+  border: 1px solid #f1f1f1;
+  font-size: 14px;
   &-sidebar
     background-color: #f4f6f8
-    height: calc(100% - 120px)
+    height: calc(100% - 0px)
     width: 200px
     padding: 60px 20px 
     border-right: 1px solid #f1f1f1
 
+.field 
+  background: #ffffff
+  border: 1px solid #efefef 
+  box-sizing: border-box
+  border-radius: 4px 
+  padding: 8px 12px
+  width: 100%
+  &:focus 
+    border-color: #dbdbdb
 
+.button 
+  background-color: #4dd599
+  border-radius: 4px
+  border: none
+  color: #ffffff
+  padding: 10px 20px 
+  &:hover
+    cursor: pointer
+    background-color: darken(#4dd599, 6%)
+  &:active 
+    background-color: darken(#4dd599, 10%)
