@@ -1,10 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
+// Хук - это специальная функция, которая позволяет 'подцепиться' к возможностям React.
+// Хук 'useState' предоставляет функциональным компонентам доступ к состоянию React.
 import List from './components/List/';
 import AddList from './components/AddList';
 
 import DB from './assets/db.json';
 
 function App() {
+  // Объявление новой переменной состояния "lists"
+  // Lists это состояние, а setLists функция которая меняет наше состояние.
+  const [lists, setLists] = useState(DB.lists.map (item => {
+    item.color = DB.colors.filter(color => color.id === item.colorId)[0].name;
+    // Здесь мы отфильтровали массив и назначили те цвета, которые в соотвестсвий с id item.
+    return item;
+    })
+  );
+
   return (
     <div className="todo">
       <div className="todo-sidebar">
@@ -18,11 +29,10 @@ function App() {
             }
           ]}
         />
-        <List items= {DB.lists.map (item => {
-          console.log(item);
-          return item;
-        })}
+        <List 
+          items = {lists}
           isRemoVable
+          // Свойство, которое будет показывать, можно ли его удалить или нет.
         />
         <AddList colors={DB.colors}/>
       </div> 
