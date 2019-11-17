@@ -6,7 +6,6 @@ import Badge from '../Badge';
 import './List.sass';
 
 const List = ({items, isRemoVable, onClick}) => {
-  console.log(items, isRemoVable);
     return (
         <ul 
           onClick = {onClick}

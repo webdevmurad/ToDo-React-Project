@@ -10,8 +10,6 @@ const AddList = ({colors}) => {
     const [visiblePopup, setVisiblePopup] = useState(false);
     const [selectedColor, selectColor] = useState(colors[0].id);
 
-    console.log(selectedColor);
-
     return (
         <div className='add-list'>
             <List 

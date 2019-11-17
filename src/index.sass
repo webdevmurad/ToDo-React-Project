@@ -9,6 +9,7 @@
     -moz-osx-font-smoothing: grayscale
 
 .todo
+  display: flex
   position: absolute
   left: 50%
   top: 50%
@@ -22,10 +23,13 @@
   font-size: 14px;
   &-sidebar
     background-color: #f4f6f8
-    height: calc(100% - 0px)
     width: 200px
+    height: calc(100% - 0px)
     padding: 60px 20px 
     border-right: 1px solid #f1f1f1
+  &-tasks 
+    flex: 1
+    padding: 60px
 
 .field 
   background: #ffffff
