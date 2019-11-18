@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 // Хук 'useState' предоставляет функциональным компонентам доступ к состоянию React.
 import List from './components/List/';
 import AddList from './components/AddList';
+import Tasks from './components/Tasks'
 
 import DB from './assets/db.json';
 
@@ -36,13 +37,15 @@ function App() {
         />
         <List 
           items = {lists}
+          onRemove={item => console.log(item)}
+          // Удаление блока
           isRemoVable
           // Свойство, которое будет показывать, можно ли его удалить или нет.
         />
         <AddList onAdd={onAddList} colors={DB.colors}/>
       </div> 
       <div className='todo-tasks'>
-        
+        <Tasks/>
       </div>
     </div>
   )

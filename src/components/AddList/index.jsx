@@ -13,6 +13,15 @@ const AddList = ({colors, onAdd}) => {
     const [inputValue, setInputValue] = useState('');
     // Хук который принимает value у инпута как состояние.
 
+    const onClose = () => {
+        setVisiblePopup(false);
+        // после ввода данных окно закрывается
+        setInputValue('');
+        // сбрасывается value
+        selectColor(colors[0].id);
+        // при открытий окна, стоит по-умолчанию выбор на первый цвет
+    }
+
     const addList = () => {
         if(!inputValue) {
             alert('Введите название списка');
@@ -22,9 +31,11 @@ const AddList = ({colors, onAdd}) => {
         // фильтрую массив и выбираю тот цвет из json который выбрал пользователь,
         // сравниваю id
         onAdd({ id: Math.random(), name: inputValue, color});
+        setVisiblePopup(false);
+        setInputValue('');
+        selectColor(colors[0].id);
+        onClose();
     }
-
-    console.log(inputValue);
 
     return (
         <div className='add-list'>
@@ -43,7 +54,7 @@ const AddList = ({colors, onAdd}) => {
             />
             {visiblePopup && <div className="add-list__popup">
                 <img 
-                    onClick={() => setVisiblePopup(false)}
+                    onClick={onClose}
                     src={closeSvg} 
                     alt='Close_button' 
                     className='add-list__popup-closeBtn' 
