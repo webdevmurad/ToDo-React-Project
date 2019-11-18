@@ -13,12 +13,15 @@ const AddList = ({colors, onAdd}) => {
     const [inputValue, setInputValue] = useState('');
     // Хук который принимает value у инпута как состояние.
 
-    const addBlock = () => {
+    const addList = () => {
         if(!inputValue) {
             alert('Введите название списка');
             return;
         }
-        onAdd({ id: Math.random(), name: inputValue, colorId: selectedColor});
+        const color = colors.filter(c => c.id === selectedColor)[0].name
+        // фильтрую массив и выбираю тот цвет из json который выбрал пользователь,
+        // сравниваю id
+        onAdd({ id: Math.random(), name: inputValue, color});
     }
 
     console.log(inputValue);
@@ -68,7 +71,7 @@ const AddList = ({colors, onAdd}) => {
                         />
                         ))}
                 </div>
-                <button onClick={addBlock} className='button'>Добавить</button>
+                <button onClick={addList} className='button'>Добавить</button>
             </div>}
         </div>
 
