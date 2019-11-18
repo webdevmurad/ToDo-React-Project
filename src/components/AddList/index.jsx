@@ -5,10 +5,23 @@ import closeSvg from '../../assets/img/close.svg';
 
 import './AddListButton.sass';
 
-const AddList = ({colors}) => {
+const AddList = ({colors, onAdd}) => {
 
     const [visiblePopup, setVisiblePopup] = useState(false);
+    // блок с инпутом и цветами
     const [selectedColor, selectColor] = useState(colors[0].id);
+    const [inputValue, setInputValue] = useState('');
+    // Хук который принимает value у инпута как состояние.
+
+    const addBlock = () => {
+        if(!inputValue) {
+            alert('Введите название списка');
+            return;
+        }
+        onAdd({ id: Math.random(), name: inputValue, colorId: selectedColor});
+    }
+
+    console.log(inputValue);
 
     return (
         <div className='add-list'>
@@ -33,6 +46,14 @@ const AddList = ({colors}) => {
                     className='add-list__popup-closeBtn' 
                 />
                 <input 
+                    value = {inputValue}
+                    // Добавляют в value state
+                    onChange={e => setInputValue(e.target.value)}
+                    // Добавил функцию изменения, чтобы открылось поле ввода.
+                    // e - просто событие
+                    // target - это в каком месте происходит событие. 
+                    //В target содержится цель.
+                    // value - это значение.
                     className='field' 
                     type='text' 
                     placeholder='Название списка'
@@ -47,7 +68,7 @@ const AddList = ({colors}) => {
                         />
                         ))}
                 </div>
-                <button className='button'>Добавить</button>
+                <button onClick={addBlock} className='button'>Добавить</button>
             </div>}
         </div>
 

@@ -16,6 +16,11 @@ function App() {
     })
   );
 
+  const onAddList = obj => {
+    const newList = [...lists, obj]; 
+    setLists(newList);
+  }
+
   return (
     <div className="todo">
       <div className="todo-sidebar">
@@ -34,7 +39,7 @@ function App() {
           isRemoVable
           // Свойство, которое будет показывать, можно ли его удалить или нет.
         />
-        <AddList colors={DB.colors}/>
+        <AddList onAdd={onAddList} colors={DB.colors}/>
       </div> 
       <div className='todo-tasks'>
         
