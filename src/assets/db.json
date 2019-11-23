@@ -7,14 +7,15 @@
     { "id": 4, "name": "Личное", "colorId": 1 }
   ],
   "tasks": [
-    { "id": 1, "listId": 2, "text": "Изучить JavaScript" },
-    { "id": 2, "listId": 2, "text": "Изучить паттерны проектирования" },
+    { "id": 1, "listId": 2, "text": "Изучить JavaScript", "completed": false},
+    { "id": 2, "listId": 2, "text": "Изучить паттерны проектирования", "completed": false },
     {
       "id": 3,
       "listId": 2,
-      "text": "ReactJS Hooks (useState, useReducer, useEffect и т.д.)"
+      "text": "ReactJS Hooks (useState, useReducer, useEffect и т.д.)",
+      "completed": true
     },
-    { "id": 4, "listId": 2, "text": "Redux (redux-observable, redux-saga)" }
+    { "id": 4, "listId": 2, "text": "Redux (redux-observable, redux-saga)", "completed": false }
   ],
   "colors": [
     { "id": 1, "hex": "#C9D1D3", "name": "grey" },
