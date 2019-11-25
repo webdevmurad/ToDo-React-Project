@@ -14,6 +14,8 @@ import {List, AddList, Tasks} from './components';
 function App() {
    const [lists, setLists] = useState(null);
    const [colors, setColors] = useState(null);
+   const [activeItem, setActiveItem] = useState(null);
+   // Выбранный, активный item
   
    useEffect(() => {
       axios
@@ -68,6 +70,11 @@ function App() {
                      setLists(newLists);
                      // здесь уже перезаписываем массив и обновляем состояние
                   }}
+                  onClickItem = {item => {
+                     setActiveItem(item);
+                  }}
+                  activeItem={activeItem}
+                  // При клике мы получаем весь список данных об item
                   isRemovable // показывает, можно ли удалить данный объект
                />
                ) : (

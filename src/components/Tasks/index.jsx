@@ -5,7 +5,6 @@ import './Tasks.sass'
 
 
 const Tasks = ({list}) => {
-    console.log(list);
     return (
         <div className='tasks'>
             <h2 className='tasks-title'>
