@@ -35,12 +35,35 @@ function App() {
       setLists(newList);
    }
 
+   const onAddTask = (listId, taskObj) => {
+      const newList = lists.map(item => {
+         if(item.id === listId) {
+            item.tasks = [...item.tasks, taskObj];
+         }
+         return item;
+      })
+      setLists(newList);
+   }
+   // Здесь функция добавляет задачу, проверяя их id и создавая новый массив.
+   
+   const onEditListTitle = (id, title) => {
+      const newList = lists.map(item => {
+         if (item.id === id) {
+            item.name = title
+         }
+         return item;
+      }); 
+      setLists(newList);
+      
+   }
+   // Здесь функция изменения названия. Проверяет есть ли изменения и создает новый массив.
 
   return (
       <div className="todo">
          <div className="todo-sidebar">
             <List items= {[
                   {
+                  active: true,
                   icon: (     
                            <svg 
                               width="18" 
@@ -83,7 +106,9 @@ function App() {
             <AddList onAdd={onAddList} colors={colors}/>
          </div> 
          <div className='todo-tasks'>
-            {lists && <Tasks list={lists[1]} />}
+            {lists && activeItem && <Tasks list={activeItem} onAddTask={onAddTask} onEditTitle={onEditListTitle}/>}
+            {/* onEditTitle функция, по клику изменяющая заголовок задач */}
+            {/* Пропихиваем функцию onAddTask */}
          </div>
       </div>
    );

@@ -25,7 +25,7 @@ const List = ({items, isRemovable, onClick, onRemove, onClickItem, activeItem}) 
                 <li 
                     key={index} 
                     className={classNames(item.className, { 
-                        active: activeItem && activeItem.id === item.id})}
+                        active: item.active ? item.active : activeItem && activeItem.id === item.id})}
                         // Сравниваем, если есть activeItem, и он равен другому item.id, то ставится класс active.
                     onClick={onClickItem ? () => onClickItem(item) : null}
                 >
