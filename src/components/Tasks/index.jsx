@@ -1,7 +1,9 @@
 import React from 'react';
 import axios from 'axios'
+import {Link} from 'react-router-dom'
 
 import AddTaskForm from './AddTaskForm'
+import Task from './Task'
 
 import editSvg from '../../assets/img/edit.svg';
 
@@ -9,7 +11,7 @@ import editSvg from '../../assets/img/edit.svg';
 import './Tasks.sass'
 
 
-const Tasks = ({list, onEditTitle, onAddTask}) => {
+const Tasks = ({list, onEditTitle, onAddTask, onEditTask, onRemoveTask, withoutEmpty, onCompleteTask}) => {
     // прокидываем onAddTask
     const editTitle = () => {
         const newTitle = window.prompt('Название списка', list.name);
@@ -30,41 +32,33 @@ const Tasks = ({list, onEditTitle, onAddTask}) => {
         // Условие, если пользователь что-то ввел, только тогда вызывать эту функцию.
     }
 
+
     return (
         <div className='tasks'>
-            <h2 className='tasks-title'>
-                {list.name} 
-                <img onClick={editTitle} src={editSvg} alt="Edit icon"/>          
-            </h2>
+            <Link to = {`/lists/${list.id}`}>
+                <h2 style={{color: list.color.hex}} className='tasks-title'>
+                    {list.name} 
+                    <img onClick={editTitle} src={editSvg} alt="Edit icon"/>          
+                </h2>
+            </Link>
 
             <div className='tasks-items'>
-                {!list.tasks.length && <h2>Задачи отсутствуют</h2>}
+                {!withoutEmpty && list.tasks && !list.tasks.length && <h2>Задачи отсутствуют</h2>}
                 {/* Если у активно-выбранной задачи нет внутренних задач, они = 0, то выходит текст */}
-                {list.tasks.map(task => (
-                    <div key={task.id} className="tasks-items__row">
-                        <div className='checkbox'>
-                            <input id={`task-${task.id}`} type='checkbox'/>
-                            <label htmlFor={`task-${task.id}`}>
-                                <svg 
-                                    width="11" 
-                                    height="8" 
-                                    viewBox="0 0 11 8" 
-                                    fill="none" 
-                                    xmlns="http://www.w3.org/2000/svg">
-                                <path 
-                                    d="M9.29999 1.20001L3.79999 6.70001L1.29999 4.20001" 
-                                    stroke="#000" 
-                                    strokeWidth="1.5" 
-                                    strokeLinecap="round" 
-                                    strokeLinejoin="round"/>
-                                </svg>
-                            </label>
-                        </div>
-                    <input readOnly value={task.text}/>
-                </div>
+                {list.tasks && list.tasks.map(task => (
+                    <Task 
+                        key={task.id} 
+                        list={list} 
+                        onEdit={onEditTask} 
+                        onRemove={onRemoveTask}
+                        onComplete = {onCompleteTask}
+                        {...task}/>
                 ))}
 
-                <AddTaskForm list={list} onAddTask={onAddTask}/>
+                <AddTaskForm 
+                    key={list.id} 
+                    list={list} 
+                    onAddTask={onAddTask}/>
                 {/* Также дальше прокидываем onAddTask */}
             </div>
 

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 // Хук 'useState' предоставляет функциональным компонентам доступ к состоянию React.
 // Хук useEffect нужен для того чтобы убедиться, отрендерились ли наши данные ?
 import axios from 'axios';
+import {Route, useHistory} from 'react-router-dom'
 // позволяет нам отправлять запросы на back-end
 
 
@@ -16,6 +17,7 @@ function App() {
    const [colors, setColors] = useState(null);
    const [activeItem, setActiveItem] = useState(null);
    // Выбранный, активный item
+   let history = useHistory();
   
    useEffect(() => {
       axios
@@ -46,6 +48,32 @@ function App() {
    }
    // Здесь функция добавляет задачу, проверяя их id и создавая новый массив.
    
+   const onCompleteTask = (listId, taskId, completed) => {
+      const newList = lists.map(list => {
+         // Пробегаемся по list
+         if (list.id === listId) {
+            // нашли нужный список
+            list.tasks = list.tasks.map(task => {
+               // Находим все задачи
+               if (task.id === taskId) {
+                  task.completed = completed;
+               }
+               return task;
+            })
+         }
+         return list;
+         // Возвращай сам список
+      });
+      setLists(newList);
+      axios.patch('http://localhost:3001/tasks/' + taskId, {
+         completed
+      })
+      // Одновременно отправляем запрос на сервер для изменения
+      .catch(() => {
+         alert('Не удалось обновить задачу');
+      });
+   } 
+
    const onEditListTitle = (id, title) => {
       const newList = lists.map(item => {
          if (item.id === id) {
@@ -58,12 +86,79 @@ function App() {
    }
    // Здесь функция изменения названия. Проверяет есть ли изменения и создает новый массив.
 
-  return (
+   const onRemoveTask = (listId, taskId) => {
+      if (window.confirm('Вы действительно хотите удалить задачу ?')) {
+         const newList = lists.map(item => {
+            // Мы пробежались по всем объектам нашего списка
+            if (item.id === listId) {
+               // нашли нужный список
+               item.tasks = item.tasks.filter(task => task.id !== taskId);
+               // и сказали, замени все задачи которые есть у тебя
+               // на результат после filter.
+            }
+            return item;
+            // Возвращай сам список
+         });
+         setLists(newList);
+         axios.delete('http://localhost:3001/tasks/' + taskId)
+         // Одновременно отправляем запрос на сервер на удаление
+         .catch(() => {
+            alert('Не удалось удалить задачу');
+         });
+      }
+   }
+  // Функция удаления задач.
+
+   const onEditTask = (listId, taskObj) => {
+      const newTaskText = window.prompt('Текст задачи', taskObj.text);
+
+      if (!newTaskText) {
+         return;
+      }
+
+      const newList = lists.map(list => {
+         // Пробегаемся по list
+         if (list.id === listId) {
+            // нашли нужный список
+            list.tasks = list.tasks.map(task => {
+               // Находим все задачи
+               if (task.id === taskObj.id) {
+                  task.text = newTaskText;
+               }
+               return task;
+            })
+         }
+         return list;
+         // Возвращай сам список
+      });
+      setLists(newList);
+      axios.patch('http://localhost:3001/tasks/' + taskObj.id, {
+         text: newTaskText
+      })
+      // Одновременно отправляем запрос на сервер для изменения
+      .catch(() => {
+         alert('Не удалось обновить задачу');
+      });
+   }
+  
+   useEffect(() => {
+      const listId = history.location.pathname.split('lists/')[1];
+      if (lists) {
+         const list = lists.find(list => list.id === Number(listId));
+         setActiveItem(list);
+      }
+   }, [lists, history.location.pathname]);
+
+   return (
       <div className="todo">
          <div className="todo-sidebar">
-            <List items= {[
+            <List 
+               onClickItem = {list => {
+                  history.push(`/`);
+               }}
+               items= {[
                   {
-                  active: true,
+                  active: history.location.pathname === '/',
                   icon: (     
                            <svg 
                               width="18" 
@@ -79,7 +174,6 @@ function App() {
                            </svg>
                         ),
                   name: 'Все задачи',
-                  active: true
                   }
                ]}
             />
@@ -93,8 +187,8 @@ function App() {
                      setLists(newLists);
                      // здесь уже перезаписываем массив и обновляем состояние
                   }}
-                  onClickItem = {item => {
-                     setActiveItem(item);
+                  onClickItem = {list => {
+                     history.push(`/lists/${list.id}`);
                   }}
                   activeItem={activeItem}
                   // При клике мы получаем весь список данных об item
@@ -106,9 +200,35 @@ function App() {
             <AddList onAdd={onAddList} colors={colors}/>
          </div> 
          <div className='todo-tasks'>
-            {lists && activeItem && <Tasks list={activeItem} onAddTask={onAddTask} onEditTitle={onEditListTitle}/>}
-            {/* onEditTitle функция, по клику изменяющая заголовок задач */}
-            {/* Пропихиваем функцию onAddTask */}
+            <Route exact path='/'>
+               {
+                  lists && lists.map(list => <Tasks 
+                     key = {list.id}
+                     list={list} 
+                     onAddTask={onAddTask} 
+                     onEditTitle={onEditListTitle}
+                     onRemoveTask = {onRemoveTask}
+                     onEditTask = {onEditTask}
+                     onCompleteTask = {onCompleteTask}
+                     withoutEmpty
+                     // Убирает текст "Задачи отстуствуют" если задачи есть.
+                     />
+                  )
+               }
+            </Route>
+            <Route path='/lists/:id'>
+               {lists && activeItem && 
+                  <Tasks 
+                     list={activeItem} 
+                     onAddTask={onAddTask} 
+                     onEditTitle={onEditListTitle}
+                     onRemoveTask = {onRemoveTask}
+                     onEditTask = {onEditTask}
+                     onCompleteTask = {onCompleteTask}
+                  />}
+                  {/* onEditTitle функция, по клику изменяющая заголовок задач
+                     Пропихиваем функцию onAddTask  */}
+            </Route> 
          </div>
       </div>
    );

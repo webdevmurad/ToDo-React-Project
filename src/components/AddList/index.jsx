@@ -46,10 +46,10 @@ const AddList = ({colors, onAdd}) => {
             // отправка запроса
             .then(({data}) => {
                 // Получили ответ от сервера
-                const color = colors.filter(c => c.id === selectedColor)[0].name;
+                const color = colors.filter(c => c.id === selectedColor)[0];
                 // фильтрую массив и выбираю тот цвет из json который выбрал пользователь,
                 // сравниваю id
-                const listObj = {...data, color: { name: color}};
+                const listObj = {...data, color, tasks: []};
                 // Получили от back-end ответ, создали новый объект. 
                 // Мы получили все свойства из ответа объекта data и добавили к нему color, цвет выбранный пользователем.
                 onAdd(listObj);

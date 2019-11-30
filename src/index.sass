@@ -13,8 +13,8 @@
   position: absolute
   left: 50%
   top: 50%
-  width: 750px
-  min-height: 530px
+  width: calc(100vw - 30px)
+  height: calc(100vh - 100px)
   font-size: 14px
   transform: translate(-50%, -50%)
   box-shadow: 1px 2px 20px #f3f3f3;
@@ -24,11 +24,13 @@
   &-sidebar
     background-color: #f4f6f8
     width: 200px
-    padding: 60px 20px 
     border-right: 1px solid #f1f1f1
+    padding: 60px 20px 
   &-tasks 
     flex: 1
     padding: 60px
+    overflow: auto
+
 
 .field 
   background: #ffffff
