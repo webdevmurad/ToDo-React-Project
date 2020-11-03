@@ -21,12 +21,12 @@ function App() {
   
    useEffect(() => {
       axios
-         .get('http://localhost:3001/lists?_expand=color&_embed=tasks')
+         .get('/lists?_expand=color&_embed=tasks')
          .then(({ data }) => {
          setLists(data);
       });
       axios
-         .get('http://localhost:3001/colors')
+         .get('/colors')
          .then(({ data }) => {
          setColors(data);
       });
