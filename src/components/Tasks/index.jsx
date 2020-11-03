@@ -20,7 +20,7 @@ const Tasks = ({list, onEditTitle, onAddTask, onEditTask, onRemoveTask, withoutE
             // Проверяем, есть ли значение
             onEditTitle(list.id, newTitle);
             // Если есть, меняем состояние
-            axios.patch('http://localhost:3001/lists/' + list.id, {
+            axios.patch('/lists/' + list.id, {
                 name: newTitle
             })
             // Одновременно отправляем запрос на сервер

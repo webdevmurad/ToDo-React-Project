@@ -65,7 +65,7 @@ function App() {
          // Возвращай сам список
       });
       setLists(newList);
-      axios.patch('http://localhost:3001/tasks/' + taskId, {
+      axios.patch('/tasks/' + taskId, {
          completed
       })
       // Одновременно отправляем запрос на сервер для изменения
@@ -100,7 +100,7 @@ function App() {
             // Возвращай сам список
          });
          setLists(newList);
-         axios.delete('http://localhost:3001/tasks/' + taskId)
+         axios.delete('/tasks/' + taskId)
          // Одновременно отправляем запрос на сервер на удаление
          .catch(() => {
             alert('Не удалось удалить задачу');
@@ -132,7 +132,7 @@ function App() {
          // Возвращай сам список
       });
       setLists(newList);
-      axios.patch('http://localhost:3001/tasks/' + taskObj.id, {
+      axios.patch('/tasks/' + taskObj.id, {
          text: newTaskText
       })
       // Одновременно отправляем запрос на сервер для изменения

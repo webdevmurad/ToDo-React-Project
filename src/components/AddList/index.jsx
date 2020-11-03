@@ -42,7 +42,7 @@ const AddList = ({colors, onAdd}) => {
         setIsLoading(true);
         // перед тем как запрос отправить, у нас происходит загрузка.
         axios
-            .post('http://localhost:3001/lists', {name: inputValue, colorId: selectedColor})
+            .post('/lists', {name: inputValue, colorId: selectedColor})
             // отправка запроса
             .then(({data}) => {
                 // Получили ответ от сервера

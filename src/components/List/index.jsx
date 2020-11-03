@@ -11,7 +11,7 @@ import './List.sass';
 const List = ({items, isRemovable, onClick, onRemove, onClickItem, activeItem}) => {
     const removeList = (item) => {
         if(window.confirm('Вы действительно хотите удалить список?')) {
-            axios.delete('http://localhost:3001/lists/' + item.id).then(() => {
+            axios.delete('/lists/' + item.id).then(() => {
             // удаление сущности по id
             onRemove(item.id);
             // Функция удаления
