@@ -16,3 +16,4 @@ Axios, json-server. Проект выложил на heroku.
 
 ##############################################
 
+[Demo Spa приложения можно посмотреть здесь ](https://todo-project-react.herokuapp.com/)
